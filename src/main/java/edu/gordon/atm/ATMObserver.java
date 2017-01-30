@@ -8,4 +8,5 @@ public interface ATMObserver {
 	void onChoosingTransaction(Session session);
 	void onPerformingTransaction(Session session);
 	void onEjectingCard(Session session);
+	void log(String logMessage);
 }
