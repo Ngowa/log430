@@ -13,10 +13,14 @@ public class DepositTest extends AbstractTest{
 	
 	@Test
 	public void testRequirementDeposit() throws InterruptedException{
+		logger.info("press on");
 		clickButton("onBtn");
+		logger.info("set bill number to 20");
 		setTextField("billsNumber", "20");
+		logger.info("insert card #1");
 		clickButton("insertCardBtn");
 		setTextField("cardNumber", "1");
+		logger.info("enter the pin 42");
 		clickButton("4");
 		clickButton("2");
 		clickButton("enterKey");

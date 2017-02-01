@@ -2,8 +2,12 @@ package log430;
 
 import static edu.gordon.simulation.GUIQuery.clickButton;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+
+import com.google.common.eventbus.EventBus;
 
 import edu.gordon.atm.ATM;
 import edu.gordon.banking.Balances;
@@ -13,6 +17,7 @@ import edu.gordon.simulation.SimulatedBank;
 import edu.gordon.simulation.Simulation;
 
 public abstract class AbstractTest {
+	protected static final Logger logger = LogManager.getLogger("User");
 	protected static final int WAIT_FOR_BANK = 4000;
 	protected static final int WAIT_FOR_RECEIPT = 10000;
 	protected static final int WAIT_FOR_CARD_ANIMATION = 3000;
@@ -24,8 +29,8 @@ public abstract class AbstractTest {
 	
 	@Before
 	public void setup() throws InterruptedException{
-		atm = new ATM(42, "Gordon College", "First National Bank of Podunk", null);
-		Simulation simulation = new Simulation(atm, new SimulatedBank(){
+		EventBus eventBus = new EventBus();
+		atm = new ATM(42, "Gordon College", "First National Bank of Podunk", null, eventBus, new SimulatedBank(){
 			@Override
 			public Status handleMessage(Message msg, Balances bal) {
 				// Intercept transaction message, balances and status for validation
@@ -35,6 +40,9 @@ public abstract class AbstractTest {
 				return status;
 			}
 		});
+		Simulation simulation = new Simulation(atm);
+		eventBus.register(simulation);
+		
 		thread = new Thread(atm);
 		thread.start();
 		// TODO - No magic number
