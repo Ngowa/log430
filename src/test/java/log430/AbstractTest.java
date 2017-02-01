@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 
+import com.google.common.eventbus.EventBus;
+
 import edu.gordon.atm.ATM;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
@@ -27,8 +29,8 @@ public abstract class AbstractTest {
 	
 	@Before
 	public void setup() throws InterruptedException{
-		atm = new ATM(42, "Gordon College", "First National Bank of Podunk", null);
-		Simulation simulation = new Simulation(atm, new SimulatedBank(){
+		EventBus eventBus = new EventBus();
+		atm = new ATM(42, "Gordon College", "First National Bank of Podunk", null, eventBus, new SimulatedBank(){
 			@Override
 			public Status handleMessage(Message msg, Balances bal) {
 				// Intercept transaction message, balances and status for validation
@@ -38,6 +40,8 @@ public abstract class AbstractTest {
 				return status;
 			}
 		});
+		Simulation simulation = new Simulation(atm);
+		eventBus.register(simulation);
 		
 		thread = new Thread(atm);
 		thread.start();
