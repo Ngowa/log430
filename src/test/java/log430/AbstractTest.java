@@ -20,7 +20,9 @@ import edu.gordon.atm.ATM;
 import edu.gordon.atm.event.AcceptEnvelopeEvent;
 import edu.gordon.atm.event.DispenseCashEvent;
 import edu.gordon.atm.event.EjectCardEvent;
+import edu.gordon.atm.event.InitialCashEvent;
 import edu.gordon.atm.event.LogEvent;
+import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.ReadingCardEvent;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
@@ -120,6 +122,16 @@ public abstract class AbstractTest {
 		@Subscribe 
 		public void recordInsertEnvelope(AcceptEnvelopeEvent evt){
 			logger.info("insert envelope");
+		}
+		
+		@Subscribe
+		public void recordInitialCash(InitialCashEvent evt){
+			logger.info("initial cash");
+		}
+		
+		@Subscribe
+		public void recordPrintReceiptLine(PrintReceiptLineEvent evt){
+			logger.info("print receipt line: " + evt.getReceiptLine());
 		}
 	}
 }
