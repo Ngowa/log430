@@ -15,20 +15,26 @@ public class DepositTest extends AbstractTest{
 	public void testRequirementDeposit() throws InterruptedException{
 		logger.info("press on");
 		clickButton("onBtn");
+		
 		logger.info("set bill number to 20");
 		setTextField("billsNumber", "20");
+		
 		logger.info("insert card #1");
 		clickButton("insertCardBtn");
 		setTextField("cardNumber", "1");
+		
 		logger.info("enter the pin 42");
 		clickButton("4");
 		clickButton("2");
 		clickButton("enterKey");
-		// Select deposit
+		
+		logger.info("select deposit");
 		clickButton("2");
-		// Select checking
+		
+		logger.info("select checking");
 		clickButton("1");
-		// Select a deposit amount of 20$
+		
+		logger.info("select deposit amount of 20$");
 		clickButton("2");
 		clickButton("0");
 		clickButton("0");
@@ -38,20 +44,19 @@ public class DepositTest extends AbstractTest{
 		// Wait for transaction info
 		// Check the information selected beforehand
 		Thread.sleep(WAIT_FOR_BANK);
+		// Insert envolope containning the money
+		logger.info("insert envelope");
+		clickButton("insertEnvelopeBtn");
+		
 		assertEquals(false, status.isInvalidPIN());
 		assertEquals(true, status.isSuccess());
 		assertEquals(1, message.getCard().getNumber());
 		assertEquals(42, message.getPIN());
-		assertEquals(Message.INITIATE_DEPOSIT, message.getMessageCode());
-		
-		// Insert envolope containning the money
-		clickButton("insertEnvelopeBtn");
-		
+		assertEquals(Message.INITIATE_DEPOSIT, message.getMessageCode());		
 		
 		// Wait for transaction info
 		Thread.sleep(3000);
 		assertEquals(Message.COMPLETE_DEPOSIT, message.getMessageCode());
-		
 		
 		Money totalExpected = new Money(120);
 		Money availableExpected = new Money(100);
