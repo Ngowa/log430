@@ -19,10 +19,13 @@ import com.google.inject.Singleton;
 import edu.gordon.atm.ATM;
 import edu.gordon.atm.event.AcceptEnvelopeEvent;
 import edu.gordon.atm.event.DispenseCashEvent;
+import edu.gordon.atm.event.DisplayEvent;
 import edu.gordon.atm.event.EjectCardEvent;
 import edu.gordon.atm.event.InitialCashEvent;
 import edu.gordon.atm.event.LogEvent;
 import edu.gordon.atm.event.PrintReceiptLineEvent;
+import edu.gordon.atm.event.PromptMenuChoiceEvent;
+import edu.gordon.atm.event.PromptReadPinEvent;
 import edu.gordon.atm.event.ReadingCardEvent;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
@@ -132,6 +135,26 @@ public abstract class AbstractTest {
 		@Subscribe
 		public void recordPrintReceiptLine(PrintReceiptLineEvent evt){
 			logger.info("print receipt line: " + evt.getReceiptLine());
+		}
+		
+		@Subscribe
+		public void recordDisplayToConsole(DisplayEvent evt){
+			logger.info("to console: " + evt.getMessage());
+		}
+		
+		@Subscribe
+		public void recordPromptPIN(PromptReadPinEvent evt){
+			logger.info("prompt pin: " + evt.getPrompt());
+		}
+		
+		@Subscribe
+		public void recordPromptMenu(PromptMenuChoiceEvent evt){
+			StringBuilder builder = new StringBuilder();
+			for(String menu : evt.getMenu()){
+				builder.append(" -");
+				builder.append(menu);
+			}
+			logger.info("prompt menu: " + evt.getPrompt() + ", options: " + builder.toString());
 		}
 	}
 }
