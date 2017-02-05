@@ -27,6 +27,7 @@ import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.PromptMenuChoiceEvent;
 import edu.gordon.atm.event.PromptReadPinEvent;
 import edu.gordon.atm.event.ReadingCardEvent;
+import edu.gordon.atm.event.RequestAmountEvent;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
 import edu.gordon.banking.Status;
@@ -143,18 +144,23 @@ public abstract class AbstractTest {
 		}
 		
 		@Subscribe
-		public void recordPromptPIN(PromptReadPinEvent evt){
+		public void recordRequestPIN(PromptReadPinEvent evt){
 			logger.info("prompt pin: " + evt.getPrompt());
 		}
 		
 		@Subscribe
-		public void recordPromptMenu(PromptMenuChoiceEvent evt){
+		public void recordRequestMenu(PromptMenuChoiceEvent evt){
 			StringBuilder builder = new StringBuilder();
 			for(String menu : evt.getMenu()){
 				builder.append(" -");
 				builder.append(menu);
 			}
 			logger.info("prompt menu: " + evt.getPrompt() + ", options: " + builder.toString());
+		}
+		
+		@Subscribe
+		public void recordRequestAmount(RequestAmountEvent evt){
+			logger.info("request amount");
 		}
 	}
 }
