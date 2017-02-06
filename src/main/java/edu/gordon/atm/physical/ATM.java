@@ -26,7 +26,7 @@ public class ATM {
 	private ReceiptPrinter receiptPrinter;
 	
 	@Inject
-	public ATM(final Log log, final CardReader cardReader, final CashDispenser cashDispenser,
+	public ATM(final CardReader cardReader, final CashDispenser cashDispenser,
 			final CustomerConsole customerConsole, final EnvelopeAcceptor envelopeAcceptor,
 			final NetworkToBank networkToBank, final OperatorPanel operatorPanel, final ReceiptPrinter receiptPrinter)
 			throws IOException {

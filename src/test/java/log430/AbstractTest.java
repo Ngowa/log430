@@ -26,7 +26,7 @@ import edu.gordon.atm.event.LogEvent;
 import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.PromptMenuChoiceEvent;
 import edu.gordon.atm.event.PromptReadPinEvent;
-import edu.gordon.atm.event.ReadingCardEvent;
+import edu.gordon.atm.event.InsertCardEvent;
 import edu.gordon.atm.event.RequestAmountEvent;
 import edu.gordon.atm.physical.SimulatedBank;
 import edu.gordon.banking.Balances;
@@ -104,8 +104,8 @@ public abstract class AbstractTest {
 	class EventInterceptor {
 		private final Logger logger = LogManager.getLogger("*EVENT*");
 		@Subscribe 
-		public void recordRedingCard(ReadingCardEvent evt){
-			logger.info("read card");
+		public void recordInsertCard(InsertCardEvent evt){
+			logger.info("insert card");
 		}
 		
 		@Subscribe 
