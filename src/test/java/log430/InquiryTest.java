@@ -14,7 +14,6 @@ public class InquiryTest extends AbstractTest{
 	@Test
 	public void testRequirementInquiry() throws InterruptedException{
 		clickButton("onBtn");
-		System.out.println("insert bill");
 		setTextField("billsNumber", "20");
 		clickButton("insertCardBtn");
 		setTextField("cardNumber", "1");

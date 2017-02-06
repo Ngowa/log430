@@ -16,7 +16,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import edu.gordon.atm.ATM;
+import edu.gordon.atm.ATMProcess;
 import edu.gordon.atm.event.AcceptEnvelopeEvent;
 import edu.gordon.atm.event.DispenseCashEvent;
 import edu.gordon.atm.event.DisplayEvent;
@@ -26,12 +26,12 @@ import edu.gordon.atm.event.LogEvent;
 import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.PromptMenuChoiceEvent;
 import edu.gordon.atm.event.PromptReadPinEvent;
-import edu.gordon.atm.event.ReadingCardEvent;
+import edu.gordon.atm.event.InsertCardEvent;
 import edu.gordon.atm.event.RequestAmountEvent;
+import edu.gordon.atm.physical.SimulatedBank;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
 import edu.gordon.banking.Status;
-import edu.gordon.simulation.SimulatedBank;
 import edu.gordon.simulation.Simulation;
 
 public abstract class AbstractTest {
@@ -47,16 +47,16 @@ public abstract class AbstractTest {
 	protected Balances balances;
 	
 	private Thread thread;
-	private ATM atm;
+	private ATMProcess atm;
 	
 	@Before
 	public void setup() throws InterruptedException, IOException{
 		Injector injector = Guice.createInjector(new TestModule());
     	
-        atm = injector.getInstance(ATM.class);
+        atm = injector.getInstance(ATMProcess.class);
         EventBus eventBus = injector.getInstance(EventBus.class);
+        Simulation simulation = injector.getInstance(Simulation.class);
         
-        Simulation simulation = new Simulation(atm);
         eventBus.register(simulation);
         eventBus.register(new EventInterceptor());
 		
@@ -104,8 +104,8 @@ public abstract class AbstractTest {
 	class EventInterceptor {
 		private final Logger logger = LogManager.getLogger("*EVENT*");
 		@Subscribe 
-		public void recordRedingCard(ReadingCardEvent evt){
-			logger.info("read card");
+		public void recordInsertCard(InsertCardEvent evt){
+			logger.info("insert card");
 		}
 		
 		@Subscribe 
