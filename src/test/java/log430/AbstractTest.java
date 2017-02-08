@@ -41,6 +41,7 @@ public abstract class AbstractTest {
 	protected static final int WAIT_FOR_BANK = 4000;
 	protected static final int WAIT_FOR_RECEIPT = 10000;
 	protected static final int WAIT_FOR_CARD_ANIMATION = 3000;
+	protected static final int WAIT_FOR_CASH_DISPENSER_ANIMATION = 5000;
 	
 	protected Message message;
 	protected Status status;

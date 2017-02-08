@@ -42,7 +42,7 @@ public class WithdrawTest extends AbstractTest{
 		assertEquals(left, balances.getAvailable());
 		
 		// TODO - No magic number
-		Thread.sleep(5000);
+		Thread.sleep(WAIT_FOR_CASH_DISPENSER_ANIMATION);
 	}
 	
 }
