@@ -55,7 +55,7 @@ public class DepositTest extends AbstractTest{
 		assertEquals(Message.INITIATE_DEPOSIT, message.getMessageCode());		
 		
 		// Wait for transaction info
-		Thread.sleep(3000);
+		Thread.sleep(WAIT_FOR_BANK);
 		assertEquals(Message.COMPLETE_DEPOSIT, message.getMessageCode());
 		
 		Money totalExpected = new Money(120);
