@@ -83,7 +83,7 @@ public class AbstractTest {
 		if(evt.getClass() == eventClass){
 			this.waiting = false;
 			this.evt = evt;
+			notify();
 		}
-		notify();
 	}
 }

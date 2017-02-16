@@ -27,7 +27,7 @@ public class WithdrawTest extends AbstractTest {
 			atm.setInitialCash(new Money(40));
 		});
 		
-		// catch the first atm message to start a session
+		// catch the second ATM DisplayEvent to start the session
 		catchEvent(DisplayEvent.class, (evt)->{
 			atm.startSession();
 		});
