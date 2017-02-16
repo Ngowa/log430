@@ -20,10 +20,6 @@ import edu.gordon.atm.event.PromptMenuChoiceEvent;
 public class AbstractTest {
 	protected static final Logger logger = LogManager.getLogger("User");
 	
-	protected static final int WAIT_TO_START = 1000;
-	protected static final int WAIT_FOR_BANK = 4000;
-	protected static final int WAIT_FOR_CASH_DISPENSER_ANIMATION = 5000;
-	
 	private Thread thread;
 	private EventBus eventBus;
 	
@@ -65,8 +61,8 @@ public class AbstractTest {
 		consumer.accept(evt);
 	}
 	
-	protected synchronized void sync(Class<? extends ATMEvent> eventClass, Runnable consumer){				
-		consumer.run();
+	protected synchronized void sync(Class<? extends ATMEvent> eventClass, Runnable runnable){				
+		runnable.run();
 		waitFor(eventClass);
 	}
 	
