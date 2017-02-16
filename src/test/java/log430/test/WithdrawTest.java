@@ -29,11 +29,9 @@ public class WithdrawTest extends AbstractTest {
 		
 		// catch the second ATM DisplayEvent to start the session
 		catchEvent(DisplayEvent.class, (evt)->{
-			atm.startSession();
-		});
-		
-		sync(InsertCardEvent.class, ()->{
+			// TODO - Sync problem with insert card
 			atm.insertCard(1);
+			atm.startSession();
 		});
 		
 		sync(PromptReadPinEvent.class, ()->{

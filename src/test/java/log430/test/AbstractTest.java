@@ -59,6 +59,7 @@ public class AbstractTest {
 	protected synchronized void catchEvent(Class<? extends ATMEvent> eventClass, Consumer<ATMEvent> consumer){
 		waitFor(eventClass);
 		consumer.accept(evt);
+		evt = null;
 	}
 	
 	protected synchronized void sync(Class<? extends ATMEvent> eventClass, Runnable runnable){				
@@ -71,7 +72,7 @@ public class AbstractTest {
 		this.waiting = true;
 		while(waiting){
 			try {
-				wait();
+				wait(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -83,7 +84,7 @@ public class AbstractTest {
 		if(evt.getClass() == eventClass){
 			this.waiting = false;
 			this.evt = evt;
-			notify();
 		}
+		notify();
 	}
 }
