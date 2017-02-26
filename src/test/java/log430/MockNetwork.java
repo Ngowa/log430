@@ -1,4 +1,4 @@
-package log430.test;
+package log430;
 
 import java.net.InetAddress;
 

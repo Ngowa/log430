@@ -6,76 +6,78 @@ import org.junit.Test;
 
 import com.google.common.eventbus.Subscribe;
 
-import edu.gordon.atm.event.AcceptEnvelopeEvent;
-import edu.gordon.atm.event.DispenseCashEvent;
 import edu.gordon.atm.event.DisplayEvent;
-import edu.gordon.atm.event.InitialCashEvent;
-import edu.gordon.atm.event.InsertCardEvent;
-import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.PromptMenuChoiceEvent;
-import edu.gordon.atm.event.PromptReadPinEvent;
-import edu.gordon.atm.event.RequestAmountEvent;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
 import edu.gordon.banking.Money;
 import edu.gordon.banking.Status;
-import junit.framework.AssertionFailedError;
 
-public class DepositTest extends AbstractTest {	
-	
+public class TransfertTest extends AbstractTest {
+
 	int menuChoiceSequence = 0;
 	
 	@Test
-	public synchronized void testDeposit() throws InterruptedException {
+	public synchronized void testTransfert() throws InterruptedException {
 	
 		atm.acceptEnvelope(true);			
 		atm.insertCard(1);
 		atm.setInitialCash(new Money(40));
 		atm.setPIN("42");
-		atm.setAmount("3000");
+		atm.setAmount("10000");
 		
 		startThread();
 		
 		// catch the first ATM event to turn it on
 		catchEvent(DisplayEvent.class, (evt)->{
-			
 			simpleWait(WAIT_FOR_ATM);
-			atm.switchOn();
-					
+			atm.switchOn();		
 		});
-		
 		// catch the second ATM DisplayEvent to start the session
 		catchEvent(DisplayEvent.class, (evt)->{
 			simpleWait(WAIT_FOR_ATM);
 			atm.startSession();
-		});
-
-		// Catch MockNetWorkEvent to validate Initiate Deposit
-		catchEvent(MockNetworkEvent.class, (evt)->{
-			simpleWait(100);
-			Message message = ((MockNetworkEvent) evt).getMessage();
-			Balances balances = ((MockNetworkEvent) evt).getBalances();
-			Status status = ((MockNetworkEvent) evt).getStatus();
-
-			assertEquals(false, status.isInvalidPIN());
-			assertEquals(true, status.isSuccess());
 			
-			assertEquals(1, message.getCard().getNumber());
-			assertEquals(42, message.getPIN());
-			assertEquals(Message.INITIATE_DEPOSIT, message.getMessageCode());
 		});
 		
-		// Catch MockNetWorkEvent to validate Complete Deposit
+		// Catch MockNetWorkEvent to validate results of the target account
 		catchEvent(MockNetworkEvent.class, (evt)->{
 			
 			Message message = ((MockNetworkEvent) evt).getMessage();
 			Balances balances = ((MockNetworkEvent) evt).getBalances();
 			Status status = ((MockNetworkEvent) evt).getStatus();
 			
-			assertEquals(Message.COMPLETE_DEPOSIT, message.getMessageCode());
+			assertEquals(false, status.isInvalidPIN());
+			assertEquals(true, status.isSuccess());
+			assertEquals(1, message.getCard().getNumber());
+			assertEquals(42, message.getPIN());
+			assertEquals(Message.TRANSFER, message.getMessageCode());
 			
-			Money totalExpected = new Money(130);
-			Money availableExpected = new Money(100);
+			
+			
+			Money totalExpected = new Money(200);
+			Money availableExpected = new Money(200);
+			assertEquals(totalExpected, balances.getTotal());
+			assertEquals(availableExpected, balances.getAvailable());
+		});
+		
+		// Catch MockNetWorkEvent to validate results of the souce account 
+		catchEvent(MockNetworkEvent.class, (evt)->{
+			
+			Message message = ((MockNetworkEvent) evt).getMessage();
+			Balances balances = ((MockNetworkEvent) evt).getBalances();
+			Status status = ((MockNetworkEvent) evt).getStatus();
+			
+			assertEquals(false, status.isInvalidPIN());
+			assertEquals(true, status.isSuccess());
+			assertEquals(1, message.getCard().getNumber());
+			assertEquals(42, message.getPIN());
+			assertEquals(Message.INQUIRY, message.getMessageCode());
+			
+			
+			
+			Money totalExpected = new Money(900);
+			Money availableExpected = new Money(900);
 			assertEquals(totalExpected, balances.getTotal());
 			assertEquals(availableExpected, balances.getAvailable());
 		});
@@ -85,16 +87,36 @@ public class DepositTest extends AbstractTest {
 	public void interceptRequestMenu(PromptMenuChoiceEvent evt){
 		switch(menuChoiceSequence){
 		case 0:
-			// Select Deposit
-			atm.setMenuChoice("2");
+			// Select Transfert
+			atm.setMenuChoice("3");
 			menuChoiceSequence++;
 			break;
 		case 1:
 			// Select Saving
-			atm.setMenuChoice("1");
+			atm.setMenuChoice("2");
 			menuChoiceSequence++;
 			break;
 		case 2:
+			// Select Checking
+			atm.setMenuChoice("1");
+			menuChoiceSequence++;
+			break;
+		case 3:
+			// Select YES
+			atm.setMenuChoice("1");
+			menuChoiceSequence++;
+			break;
+		case 4:
+			// Select Inquiry
+			atm.setMenuChoice("4");
+			menuChoiceSequence++;
+			break;
+		case 5:
+			// Select Saving
+			atm.setMenuChoice("2");
+			menuChoiceSequence++;
+			break;
+		case 6:
 			// Select NO
 			atm.setMenuChoice("2");
 			menuChoiceSequence++;

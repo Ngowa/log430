@@ -1,4 +1,4 @@
-package log430.test;
+package log430;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;

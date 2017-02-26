@@ -1,4 +1,4 @@
-package log430.test;
+package log430;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
