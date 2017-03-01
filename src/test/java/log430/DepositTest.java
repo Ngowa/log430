@@ -6,20 +6,12 @@ import org.junit.Test;
 
 import com.google.common.eventbus.Subscribe;
 
-import edu.gordon.atm.event.AcceptEnvelopeEvent;
-import edu.gordon.atm.event.DispenseCashEvent;
 import edu.gordon.atm.event.DisplayEvent;
-import edu.gordon.atm.event.InitialCashEvent;
-import edu.gordon.atm.event.InsertCardEvent;
-import edu.gordon.atm.event.PrintReceiptLineEvent;
 import edu.gordon.atm.event.PromptMenuChoiceEvent;
-import edu.gordon.atm.event.PromptReadPinEvent;
-import edu.gordon.atm.event.RequestAmountEvent;
 import edu.gordon.banking.Balances;
 import edu.gordon.banking.Message;
 import edu.gordon.banking.Money;
 import edu.gordon.banking.Status;
-import junit.framework.AssertionFailedError;
 
 public class DepositTest extends AbstractTest {	
 	

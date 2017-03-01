@@ -15,11 +15,6 @@ import com.google.inject.Injector;
 
 import edu.gordon.atm.ATMProcess;
 import edu.gordon.atm.event.ATMEvent;
-import edu.gordon.atm.event.DisplayEvent;
-import edu.gordon.atm.event.EjectCardEvent;
-import edu.gordon.atm.event.PrintReceiptLineEvent;
-import edu.gordon.atm.event.PromptMenuChoiceEvent;
-import edu.gordon.banking.Money;
 
 public class AbstractTest {
 	protected static final Logger logger = LogManager.getLogger("User");
